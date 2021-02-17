@@ -1,5 +1,6 @@
-def flat_list(array):
+import time
 
+def flat_list(array):
     a = True
     temp_array = []
     flag_list = 0
@@ -7,11 +8,9 @@ def flat_list(array):
         for i in array:
             if isinstance(i, list):
                 temp_array.extend(i)
-                print('proverka')
                 flag_list = 1
             else:
                 temp_array.append(i)
-        print(temp_array)
         if flag_list == 1:
             a = True
             array = temp_array
@@ -21,9 +20,24 @@ def flat_list(array):
         flag_list = 0
     return array
 
+def rec_func(array):
+    new_array = []
+    for i in array:
+        if isinstance(i, list):
+            new_array.extend(rec_func(i))
+        else:
+            new_array.append(i)
+    print(new_array)
+    return new_array
+
+
+
+
 if __name__ == '__main__':
-    assert flat_list([1, 2, 3]) == [1, 2, 3], "First"
-    assert flat_list([1, [2, 2, 2], 4]) == [1, 2, 2, 2, 4], "Second"
+    start_time = time.time()
+    assert rec_func([[[2]], [4, [5, 6, [6], 6, 6, 6], 7]]) == [2, 4, 5, 6, 6, 6, 6, 6, 7], "Third"
+    print("--- %s seconds ---" % (time.time() - start_time))
+    start_time = time.time()
     assert flat_list([[[2]], [4, [5, 6, [6], 6, 6, 6], 7]]) == [2, 4, 5, 6, 6, 6, 6, 6, 7], "Third"
-    assert flat_list([-1, [1, [-2], 1], -1]) == [-1, 1, -2, 1, -1], "Four"
+    print("--- %s seconds ---" % (time.time() - start_time))
     print('Done! Check it')
